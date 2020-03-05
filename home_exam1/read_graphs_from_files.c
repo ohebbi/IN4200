@@ -58,33 +58,76 @@ void read_graph_from_file2(char *filename, int *N, int *N_links, int **row_ptr, 
     fscanf(file, "%*[^\n]\n");
 
     (*N)++;   //row_ptr is of size N+1.
+
+    int *fromNodeId; int *toNodeId;
+    int fromNode; int toNode;
+
     alloc1D(col_idx, *N_links);
     alloc1D(row_ptr, *N);
 
-    //printvec(col_idx,N_links);
-
-    int fromNode; int toNode;
-
-    int **fromNodeId;
-    int **toNodeId;
-
-    alloc1D(fromNodeId,*N_links);
-    alloc1D(toNodeId,*N_links);
+    alloc1D(&fromNodeId,*N_links);
+    alloc1D(&toNodeId,*N_links);
 
     fscanf(file,"%d %d", &fromNode, &toNode);
-    int i = 0;
+    int validcounts = 0;
+    int totalcounts = 0;
+    //read file and store every fromNode and toNode to each vector.
     while (!feof (file)){
-        //printf("%d %d\n", fromNode, toNode);
+        if (fromNode != toNode){
+            fromNodeId[validcounts] = fromNode;
+            toNodeId[validcounts] = toNode;
+            validcounts++;
+        }
 
         fscanf(file,"%d %d", &fromNode, &toNode);
 
-        (*fromNodeId)[i] = fromNode;
-        (*toNodeId)[i] = toNode;
-
-        i++;
+        totalcounts++;
     }
-    printvec(toNodeId,N_links);
+    printf("# of self-links: %d\n", (totalcounts-validcounts));
+    *N_links -= (totalcounts-validcounts);
 
+    // The next for-loops shows how to make a CRS out of fromNodeId and toNodeId.
+    for (int i = 0; i < *N_links; i++){
+        (*row_ptr)[toNodeId[i]]++;
+    }
+
+    int sum = 0;
+    for (int i = 0; i < *N; i++){
+        int tmp       = (*row_ptr)[i];
+        (*row_ptr)[i] = sum;
+        sum          += tmp;
+    }
+    (*row_ptr)[*N] = *N_links;
+
+    for (int i = 0; i < *N_links; i++){
+        int row  = toNodeId[i];
+        int dest = (*row_ptr)[row];
+
+        (*col_idx)[dest] = fromNodeId[i];
+        (*row_ptr)[row] ++;
+    }
+
+    int last = 0;
+    for (int i = 0; i <= *N; i++){
+        int tmp       = (*row_ptr)[i];
+        (*row_ptr)[i] = last;
+        last = tmp;
+    }
+
+    //follow the convention with an extra zero in the beginning
+    //0-indices convention. Add +1 for 1-indices convention.
+    for (int i = *N; i >= 1; i--){
+        (*row_ptr)[i] = (*row_ptr)[i-1] ; // +1
+    }
+    (*row_ptr)[0] = 0;
+
+
+    printf("col_idx:\n");
+    printvec(col_idx,N_links);
+    printf("row_ptr:\n");
+    printvec(row_ptr,N);
+
+    
 }
 
 
@@ -96,16 +139,19 @@ int main(int argc, char const *argv[]) {
 
     char **table2D;
     int N = 0;
+    read_graph_from_file1("test_readfile.txt", &N, &table2D);
+
     //read_graph_from_file1("test_readfile.txt", &N, &table2D);
 
-    read_graph_from_file1("test_readfile2.txt", &N, &table2D);
 
+    printf("CRS:\n");
 
-    printf("CRS:\n\n");
     int N_links = 0;
+
     int *row_ptr;
     int *col_idx;
-    read_graph_from_file2("test_readfile2.txt", &N, &N_links, &row_ptr, &col_idx);
+
+    read_graph_from_file2("test_readfile.txt", &N, &N_links, &row_ptr, &col_idx);
 
     //read_graph_from_file2("test_readfile.txt", &N, &N_links, &row_ptr, &col_idx);
 
