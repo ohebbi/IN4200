@@ -3,6 +3,14 @@
 #include <stdio.h>  // printf
 #include "read_graph_from_files.h"
 
+// Opens a text file, allocates a 2D-vector and
+// reads the web graph into the table
+//
+// Parameters
+// ----------
+// filename: char
+// N: initialized int
+// table2D: initialized 2D-vector as char.
 
 void read_graph_from_file1(char *filename, int *N, char ***table2D) {
 
@@ -44,7 +52,21 @@ void read_graph_from_file1(char *filename, int *N, char ***table2D) {
 
 }
 
+// Opens a text file, allocates two vectors and
+// reads the web graph in a compressed row storage format.
+// This function follows the 0-indices convention, but can
+// easily be transformed into 1-indices convention.
+//
+// Parameters
+// ----------
+// filename: char
+// N, N_links: initialized ints
+// row_ptr, col_idx: initialized vectors of ints
 
+// Return Parameters
+// -----------------
+// C : matrix of doubles, n*p
+//      Assumed to be zero initialized.
 void read_graph_from_file2(char *filename, int *N, int *N_links, int **row_ptr, int **col_idx){
 
     FILE *file = fopen(filename, "r");
@@ -114,20 +136,26 @@ void read_graph_from_file2(char *filename, int *N, int *N_links, int **row_ptr, 
         last = tmp;
     }
 
-    //follow the convention with an extra zero in the beginning
+    //follow the convention with an extra zero in the beginning.
     //0-indices convention. Add +1 for 1-indices convention.
     for (int i = *N; i >= 1; i--){
         (*row_ptr)[i] = (*row_ptr)[i-1] ; // +1
     }
     (*row_ptr)[0] = 0;
 
+    //uncomment for 1-indices convention.
+    /*
+    for (int i = 0; i<*N_links; i++){
+      (*col_idx)[i] += 1;
+    }
+    */
 
     printf("col_idx:\n");
-    printvec(col_idx,N_links);
+    //printvec(col_idx,N_links);
     printf("row_ptr:\n");
-    printvec(row_ptr,N);
+    //printvec(row_ptr,N);
 
-    
+    free(fromNodeId); free(toNodeId);
 }
 
 
@@ -137,9 +165,9 @@ void read_graph_from_file2(char *filename, int *N, int *N_links, int **row_ptr, 
 //REMEMBER TO FREE MEMORY!!!!
 int main(int argc, char const *argv[]) {
 
-    char **table2D;
+    //char **table2D;
     int N = 0;
-    read_graph_from_file1("test_readfile.txt", &N, &table2D);
+    //read_graph_from_file1("test_readfile.txt", &N, &table2D);
 
     //read_graph_from_file1("test_readfile.txt", &N, &table2D);
 
@@ -151,7 +179,7 @@ int main(int argc, char const *argv[]) {
     int *row_ptr;
     int *col_idx;
 
-    read_graph_from_file2("test_readfile.txt", &N, &N_links, &row_ptr, &col_idx);
+    read_graph_from_file2("web-NotreDame.txt", &N, &N_links, &row_ptr, &col_idx);
 
     //read_graph_from_file2("test_readfile.txt", &N, &N_links, &row_ptr, &col_idx);
 
