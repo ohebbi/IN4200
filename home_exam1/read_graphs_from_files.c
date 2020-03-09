@@ -33,7 +33,7 @@ void read_graph_from_file1(char *filename, int *N, char ***table2D) {
     fscanf(file, "%*[^\n]\n");
 
     alloc2D(table2D, *N, *N);
-    printmat(*table2D,N,N);
+    //printmat(*table2D,N,N);
 
     int fromNode; int toNode;
 
@@ -41,14 +41,16 @@ void read_graph_from_file1(char *filename, int *N, char ***table2D) {
 
     while (!feof (file))
     {
-        printf("%d %d\n", fromNode, toNode);
-        (*table2D)[toNode][fromNode]++;
-        printmat(*table2D,N,N);
+        if (fromNode != toNode){
+            //printf("%d %d\n", fromNode, toNode);
+            (*table2D)[toNode][fromNode]++;
+            //printmat(*table2D,N,N);
+        }
         fscanf(file,"%d %d", &fromNode, &toNode);
     }
 
     //printmat(*table2D,N,N);
-    free2D(table2D);
+    //free2D(table2D);
 
 }
 
@@ -63,10 +65,6 @@ void read_graph_from_file1(char *filename, int *N, char ***table2D) {
 // N, N_links: initialized ints
 // row_ptr, col_idx: initialized vectors of ints
 
-// Return Parameters
-// -----------------
-// C : matrix of doubles, n*p
-//      Assumed to be zero initialized.
 void read_graph_from_file2(char *filename, int *N, int *N_links, int **row_ptr, int **col_idx){
 
     FILE *file = fopen(filename, "r");
@@ -80,11 +78,11 @@ void read_graph_from_file2(char *filename, int *N, int *N_links, int **row_ptr, 
     fscanf(file, "%*[^\n]\n");
 
     (*N)++;   //row_ptr is of size N+1.
-
     int *fromNodeId; int *toNodeId;
     int fromNode; int toNode;
 
     alloc1D(col_idx, *N_links);
+
     alloc1D(row_ptr, *N);
 
     alloc1D(&fromNodeId,*N_links);
@@ -137,51 +135,98 @@ void read_graph_from_file2(char *filename, int *N, int *N_links, int **row_ptr, 
     }
 
     //follow the convention with an extra zero in the beginning.
-    //0-indices convention. Add +1 for 1-indices convention.
+    //0-indices convention. Add +1 for 1-indices convention for the row pointers
     for (int i = *N; i >= 1; i--){
         (*row_ptr)[i] = (*row_ptr)[i-1] ; // +1
     }
     (*row_ptr)[0] = 0;
 
-    //uncomment for 1-indices convention.
+    //uncomment for 1-indices convention for the column indices.
     /*
     for (int i = 0; i<*N_links; i++){
       (*col_idx)[i] += 1;
     }
     */
 
-    printf("col_idx:\n");
+    //printf("col_idx:\n");
     //printvec(col_idx,N_links);
-    printf("row_ptr:\n");
+    //printf("row_ptr:\n");
     //printvec(row_ptr,N);
 
     free(fromNodeId); free(toNodeId);
 }
 
+int count_mutual_links1(int N, char **table2D, int *num_involvements){
+  int tot_mutual_links = 0;
+  int *mutual_links = 0;
+  alloc1D(&mutual_links,N);
 
+  for (int i = 0; i < N; i++){
+
+      for (int j = 0; j < N; j++){
+            mutual_links[i] += table2D[i][j];
+      }
+      //num_involvements[i]*=0.5*(num_involvements[i]+1);
+      if (mutual_links[i]<=1){
+          mutual_links[i] = 0;
+      }
+      else{
+          mutual_links[i] = (mutual_links[i]-1)*mutual_links[i]*0.5;
+      }
+      tot_mutual_links += mutual_links[i];
+  }
+  //Number of outbound involments
+  for (int i = 0; i< N; i++){
+      for (int j = 0; j < N; j++){
+          if (table2D[j][i] == 1){
+              for (int k = 0; k<N; k++){
+                  if (i!=k){
+                      num_involvements[i] += table2D[j][k];
+                      //printf("%d %d %d\n", tmp, j, k);
+                  }
+              }
+          }
+      }
+  }
+  printvec(&num_involvements,&N);
+  //printvec(&mutual_links,&N);
+  printf("%d\n", tot_mutual_links);
+
+
+
+  return tot_mutual_links;
+}
 
 
 /////////////////////////////////////////////////////////////////////77
 //REMEMBER TO FREE MEMORY!!!!
 int main(int argc, char const *argv[]) {
 
-    //char **table2D;
+    char **table2D;
     int N = 0;
-    //read_graph_from_file1("test_readfile.txt", &N, &table2D);
 
-    //read_graph_from_file1("test_readfile.txt", &N, &table2D);
+    read_graph_from_file1("100nodes.txt", &N, &table2D);
+
+    int *num_involvements;
+    alloc1D(&num_involvements, N);
+    count_mutual_links1(N, table2D, num_involvements);
 
 
-    printf("CRS:\n");
+
+    /*
+    //printf("CRS:\n");
 
     int N_links = 0;
 
     int *row_ptr;
     int *col_idx;
 
-    read_graph_from_file2("web-NotreDame.txt", &N, &N_links, &row_ptr, &col_idx);
-
+    read_graph_from_file2("100nodes.txt", &N, &N_links, &row_ptr, &col_idx);
+    */
     //read_graph_from_file2("test_readfile.txt", &N, &N_links, &row_ptr, &col_idx);
+
+
+
 
     return 0;
 }
