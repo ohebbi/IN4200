@@ -1,3 +1,8 @@
+#include <stdlib.h> // rand, malloc and free.
+#include <stdio.h>  // printf
+
+#include "functions.h"
+
 // Opens a text file, allocates two vectors and
 // reads the web graph in a compressed row storage format.
 // This function follows the 0-indices convention, but can

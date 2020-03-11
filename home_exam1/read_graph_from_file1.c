@@ -1,3 +1,8 @@
+#include <stdlib.h> // rand, malloc and free.
+#include <stdio.h>  // printf
+
+#include "functions.h"
+
 // Opens a text file, allocates a 2D-vector and
 // reads the web graph into the table
 //

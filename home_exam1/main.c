@@ -4,41 +4,15 @@
 #include <omp.h>
 #include <time.h>
 
-
 #include "functions.h"
 
 #include "read_graph_from_file1.c"
 #include "read_graph_from_file2.c"
 #include "count_mutual_links1.c"
 #include "count_mutual_links2.c"
+#include "top_n_webpages.c"
 
 
-int cmpfunc (const void * a, const void * b) {
-   return ( *(int*)a - *(int*)b );
-}
-
-void top_n_webpages(int num_webpages, int *num_involvements, int n) {
-
-  int size = sizeof(num_involvements);
-  int keys[size];
-  int i;
-  printf("%d\n",size );
-
-  printf("data :\n");
-  printvec(num_involvements, size);
-  for(i=0;i<(size);i++){
-      keys[num_involvements[i]-1]=i;
-  }
-
-  printf("\n\ndata\tindex\n");
-  for(i=0;i<size;i++){
-      printf("%d %d \n", i, keys[i]);
-
-      printf("%d\t%d\n", num_involvements[keys[i]], keys[i]);
-  }
-
-
-}
 /////////////////////////////////////////////////////////////////////77
 //REMEMBER TO FREE MEMORY!!!!
 int main(int argc, char const *argv[]) {
@@ -63,7 +37,7 @@ int main(int argc, char const *argv[]) {
     int *row_ptr;
     int *col_idx;
 
-    read_graph_from_file2("data/test_readfile.txt", &N2, &N_links, &row_ptr, &col_idx);
+    read_graph_from_file2("data/web-NotreDame.txt", &N2, &N_links, &row_ptr, &col_idx);
 
     alloc1D(&num_involvements2, N2);
 
@@ -76,7 +50,7 @@ int main(int argc, char const *argv[]) {
     end = clock();
 
     start_MP = clock();
-    int num_webpages = count_mutual_links2_openMP(N2, N_links, row_ptr, col_idx, num_involvements2);
+    count_mutual_links2_openMP(N2, N_links, row_ptr, col_idx, num_involvements2);
     end_MP = clock();
 
     total = (double)(end - start)/CLOCKS_PER_SEC;
@@ -87,8 +61,6 @@ int main(int argc, char const *argv[]) {
     printf("Time elapsed for count_mutual_links2_openMP: %.6lf s\n", total_MP);
     printf("Parallelisation: without / with Parallelisation = %f\n", total/total_MP);
 
-    printf("num_involemnts2:\n");
-    printvec(num_involvements1,N1);
-    top_n_webpages(num_webpages, num_involvements1, 5);
+    top_n_webpages(N2, num_involvements2, 5);
     return 0;
 }

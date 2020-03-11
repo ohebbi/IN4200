@@ -1,4 +1,7 @@
+#include <stdlib.h> // rand, malloc and free.
+#include <stdio.h>  // printf
 
+#include "functions.h"
 
 int count_mutual_links1(int N, char **table2D, int *num_involvements){
   int tot_mutual_links = 0;
@@ -33,8 +36,8 @@ int count_mutual_links1(int N, char **table2D, int *num_involvements){
           }
       }
   }
-  printvec(num_involvements,N);
-  printvec(mutual_links,N);
+  //printvec(num_involvements,N);
+  //printvec(mutual_links,N);
   printf("%d\n", tot_mutual_links);
 
   return tot_mutual_links;
@@ -76,8 +79,8 @@ int count_mutual_links1_openMP(int N, char **table2D, int *num_involvements){
           }
       }
   }
-  printvec(num_involvements,N);
-  printvec(mutual_links,N);
+  //printvec(num_involvements,N);
+  //printvec(mutual_links,N);
   printf("%d\n", tot_mutual_links);
 
   return tot_mutual_links;
