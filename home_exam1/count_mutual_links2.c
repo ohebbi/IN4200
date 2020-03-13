@@ -58,9 +58,7 @@ int count_mutual_links2_openMP(int N, int N_links, int *row_ptr, int *col_idx, i
   #pragma omp parallel for reduction(+:tot_mutual_links, num_involvements[:N])
   for (int i = 0; i < (N); i++){
       if ((row_ptr[i+1] - row_ptr[i])>1){
-          //printf("%d %d\n", i, (row_ptr[i+2] - row_ptr[i+1]));
           for (int j = row_ptr[i]; j < (row_ptr[i+1]); j++){
-              //printf("%d\n", j);
               num_involvements[col_idx[j]] += (row_ptr[i+1] - (row_ptr[i]))-1;
           }
       }

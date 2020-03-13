@@ -27,7 +27,7 @@ int count_mutual_links1(int N, char **table2D, int *num_involvements){
   for (int i = 0; i< N; i++){
       num_involvements[i] = 0; //assign values to the vector
       for (int j = 0; j < N; j++){
-          if (table2D[j][i] == 1){
+          if (table2D[j][i]){
               for (int k = 0; k<N; k++){
                   if (i!=k){
                       num_involvements[i] += table2D[j][k];
@@ -70,7 +70,7 @@ int count_mutual_links1_openMP(int N, char **table2D, int *num_involvements){
   for (int i = 0; i< N; i++){
       num_involvements[i] = 0; //assign values to the vector
       for (int j = 0; j < N; j++){
-          if (table2D[j][i] == 1){
+          if (table2D[j][i]){
               for (int k = 0; k<N; k++){
                   if (i!=k){
                       num_involvements[i] += table2D[j][k];
@@ -79,8 +79,6 @@ int count_mutual_links1_openMP(int N, char **table2D, int *num_involvements){
           }
       }
   }
-  //printvec(num_involvements,N);
-  //printvec(mutual_links,N);
   printf("%d\n", tot_mutual_links);
 
   return tot_mutual_links;
