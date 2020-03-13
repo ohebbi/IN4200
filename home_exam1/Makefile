@@ -10,7 +10,7 @@ CC 			:= gcc
 PROFILE := -pg
 
 EXEC 		= main.exe
-FLAGS		= -Wall -fopenmp
+FLAGS		= -Wall -openmp
 DEP 		= functions.h
 
 SRC := $(wildcard *.c)
@@ -20,4 +20,5 @@ $(EXEC): $(SRC)
 
 clean :
 	@rm -f *.exe $(PROGRAMS)
-print-%  : ; @echo $* = $($*)
+test :
+	$(CC) $(FLAGS) unit_tests/unit_test.c -o test.exe; ./test.exe
