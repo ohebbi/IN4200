@@ -10,7 +10,7 @@ CC 			:= gcc
 PROFILE := -pg
 
 EXEC 		= main.exe
-FLAGS		= -Wall -openmp
+FLAGS		= -Wall -fopenmp
 DEP 		= functions.h
 
 SRC := $(wildcard *.c)
