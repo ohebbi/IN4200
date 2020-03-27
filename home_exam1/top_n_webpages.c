@@ -10,8 +10,8 @@ void top_n_webpages(int num_webpages, int *num_involvements, int n) {
 
   int *top_webpages;
   alloc1D(&top_webpages,n);
-  #pragma omp parallel for private(i)
   for(int i=0; i < (n); i++){
+      #pragma omp parallel for ordered schedule(dynamic)
       for (int j=0; j < (num_webpages); j++){
           if (num_involvements[j] > top_webpages[0]){
               top_webpages[0] = num_involvements[j];
@@ -33,7 +33,7 @@ void top_n_webpages(int num_webpages, int *num_involvements, int n) {
           }
       }
   }
-  
+
 
   printf("\ndata\tindex\n");
   printf("===============\n");
