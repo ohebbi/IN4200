@@ -11,7 +11,7 @@ void top_n_webpages(int num_webpages, int *num_involvements, int n) {
   int *top_webpages;
   alloc1D(&top_webpages,n);
 
-  #pragma omp parallel for ordered schedule(dynamic) collapse(2)
+  #pragma omp parallel for ordered schedule(dynamic) 
   for(int i=1; i < (n); i++){
     //#pragma omp ordered
       for (int j=0; j < (num_webpages); j++){
