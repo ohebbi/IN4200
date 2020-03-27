@@ -12,7 +12,7 @@ void top_n_webpages(int num_webpages, int *num_involvements, int n) {
   alloc1D(&top_webpages,n);
 
   #pragma omp parallel for ordered schedule(dynamic)
-  for(int i=0; i < (n); i++){
+  for(int i=1; i < (n); i++){
 
       for (int j=0; j < (num_webpages); j++){
           if (num_involvements[j] > top_webpages[0]){
