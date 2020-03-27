@@ -5,26 +5,25 @@
 
 void top_n_webpages(int num_webpages, int *num_involvements, int n) {
 
-  int *index;
-  alloc1D(&index,n);
+  int *top_indices;
+  alloc1D(&top_indices,n);
 
   int *top_webpages;
   alloc1D(&top_webpages,n);
 
   #pragma omp parallel for ordered schedule(dynamic)
   for(int i=0; i < (n); i++){
-
       for (int j=0; j < (num_webpages); j++){
           if (num_involvements[j] > top_webpages[i]){
               top_webpages[i] = num_involvements[j];
-              index[i]        = j;
+              top_indices[i]  = j;
 
               // Check for earlier occurents with this index
               #pragma omp ordered
               for (int k = 0; k < i; k++){
                   if (index[k] == j){
                       top_webpages[i] = 0;
-                      index[i]        = 0;
+                      top_indices[i]  = 0;
                   }
               }
           }
