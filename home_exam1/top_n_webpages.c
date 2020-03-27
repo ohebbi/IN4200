@@ -11,8 +11,8 @@ void top_n_webpages(int num_webpages, int *num_involvements, int n) {
   int *top_webpages;
   alloc1D(&top_webpages,n);
 
-  #pragma omp parallel for private(top_webpages)
   for(int i=0; i < (n); i++){
+      #pragma omp parallel for private(top_webpages)
       for (int j=0; j < (num_webpages); j++){
           if (num_involvements[j] > top_webpages[0]){
               top_webpages[0] = num_involvements[j];
