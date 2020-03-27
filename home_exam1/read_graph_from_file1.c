@@ -38,6 +38,8 @@ void read_graph_from_file1(char *filename, int *N, char ***table2D) {
 
     fscanf(file, "%d %d", &fromNode, &toNode);
 
+    int total_number_read = 0;
+
     while (!feof (file))
     {
         if (fromNode != toNode){
@@ -45,7 +47,7 @@ void read_graph_from_file1(char *filename, int *N, char ***table2D) {
             (*table2D)[toNode][fromNode]++;
             //printmat(*table2D,*N,*N);
         }
-        fscanf(file,"%d %d", &fromNode, &toNode);
+        total_number_read = fscanf(file,"%d %d", &fromNode, &toNode);
     }
 
     //printmat(*table2D,*N,*N);

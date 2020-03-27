@@ -40,6 +40,8 @@ void read_graph_from_file2(char *filename, int *N, int *N_links, int **row_ptr, 
     fscanf(file,"%d %d", &fromNode, &toNode);
     int validcounts = 0;
     int totalcounts = 0;
+
+    int total_number_read = 0;
     //read file and store every fromNode and toNode to each vector.
     while (!feof (file)){
         if (fromNode != toNode){
@@ -48,7 +50,7 @@ void read_graph_from_file2(char *filename, int *N, int *N_links, int **row_ptr, 
             validcounts++;
         }
 
-        fscanf(file,"%d %d", &fromNode, &toNode);
+        total_number_read += fscanf(file,"%d %d", &fromNode, &toNode);
 
         totalcounts++;
     }
