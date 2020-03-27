@@ -25,9 +25,9 @@ void top_n_webpages(int num_webpages, int *num_involvements, int n) {
               index[i]        = j;
 
               // Check for earlier occurents with this index
-
+              #pragma omp ordered
               for (int k = 0; k < i; k++){
-                  #pragma omp ordered
+
                   if (index[k] == j){
                       top_webpages[i] = 0;
                       index[i]        = 0;
