@@ -20,7 +20,7 @@ void top_n_webpages(int num_webpages, int *num_involvements, int n) {
               index[0]        = j;
           }
 
-          else if ((num_involvements[j] > top_webpages[i]) && (num_involvements[j] <= top_webpages[i-1])){
+          else if (num_involvements[j] > top_webpages[i]){
               top_webpages[i] = num_involvements[j];
               index[i]        = j;
 
