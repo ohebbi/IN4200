@@ -15,13 +15,14 @@ void top_n_webpages(int num_webpages, int *num_involvements, int n) {
   for(int i=0; i < (n); i++){
       for (int j=0; j < (num_webpages); j++){
           if (num_involvements[j] > top_webpages[i]){
+              // Assign new top-value
               top_webpages[i] = num_involvements[j];
               top_indices[i]  = j;
 
               // Check for earlier occurents with this index
               #pragma omp ordered
               for (int k = 0; k < i; k++){
-                  if (index[k] == j){
+                  if (top_indices[k] == j){
                       top_webpages[i] = 0;
                       top_indices[i]  = 0;
                   }
@@ -33,10 +34,10 @@ void top_n_webpages(int num_webpages, int *num_involvements, int n) {
   printf("\ndata\tindex\n");
   printf("===============\n");
   for (int i = 0; i < n; i++){
-      printf("%d\t%d\n", top_webpages[i], index[i]);
+      printf("%d\t%d\n", top_webpages[i], top_indices[i]);
   }
 
   printf("===============\n");
-  free(index);
+  free(top_indices);
   free(top_webpages);
 }
