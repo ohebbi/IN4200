@@ -5,6 +5,10 @@
 
 void top_n_webpages(int num_webpages, int *num_involvements, int n) {
 
+  assert(n>1){
+    printf("Error! Must show more than 1\n");
+    exit(-1); // must include stdlib.h
+  }
   int *index;
   alloc1D(&index,n);
 
