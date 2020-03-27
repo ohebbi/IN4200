@@ -13,19 +13,19 @@ void top_n_webpages(int num_webpages, int *num_involvements, int n) {
 
   #pragma omp parallel for ordered schedule(dynamic)
   for(int i=1; i < (n); i++){
-    #pragma omp ordered
+
       for (int j=0; j < (num_webpages); j++){
           if (num_involvements[j] > top_webpages[0]){
               top_webpages[0] = num_involvements[j];
               index[0]        = j;
           }
 
-          //
           else if ((num_involvements[j] > top_webpages[i]) && (num_involvements[j] <= top_webpages[i-1])){
               top_webpages[i] = num_involvements[j];
               index[i]        = j;
 
               // Check for earlier occurents with this index
+              #pragma omp ordered
               for (int k = 0; k < i; k++){
                   if (index[k] == j){
                       top_webpages[i] = 0;
@@ -35,7 +35,6 @@ void top_n_webpages(int num_webpages, int *num_involvements, int n) {
           }
       }
   }
-
 
   printf("\ndata\tindex\n");
   printf("===============\n");
