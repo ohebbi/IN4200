@@ -73,7 +73,7 @@ int count_mutual_links2_openMP(int N, int N_links, int *row_ptr, int *col_idx, i
   //printvec(mutual_links,N-1);
   printf("# mutual links: %d\n", tot_mutual_links);
 
-  #pragma omp parallel for reduction(+:num_involvements[:N]) num_threads(1)
+  #pragma omp parallel for num_threads(1) reduction(+:num_involvements[:N]) 
   for (int i = 0; i < (N); i++){
       if ((row_ptr[i+1] - row_ptr[i])>1){
           for (int j = row_ptr[i]; j < (row_ptr[i+1]); j++){
