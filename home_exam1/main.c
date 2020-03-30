@@ -39,7 +39,7 @@ int main(int argc, char const *argv[]) {
     end = clock();
 
     start_MP = clock();
-    count_mutual_links1(N1, table2D, num_involvements2);
+    count_mutual_links1_openMP(N1, table2D, num_involvements2);
     end_MP = clock();
 
     total = (double)(end - start)/CLOCKS_PER_SEC;

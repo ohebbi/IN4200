@@ -56,7 +56,7 @@ int count_mutual_links1_openMP(int N, char **table2D, int *num_involvements){
   int *mutual_links = 0;
   alloc1D(&mutual_links,N);
 
-  #pragma omp parallel for num_threads(2) reduction(+:tot_mutual_links, num_involvements[:N])
+  #pragma omp parallel for num_threads(1) reduction(+:tot_mutual_links, num_involvements[:N])
   for (int i = 0; i < N; i++){
       mutual_links[i] = 0;
       for (int j = 0; j < N; j++){
