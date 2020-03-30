@@ -17,19 +17,25 @@ To clean the build, write
 ## A successful run will look like this.
 - $ ./main.exe data/100nodes.txt data/web-NotreDame.txt  
 Output:  
-Reading data graph: data/100nodes.txt ...  
+Reading data graph: data/test_readfile.txt ...   
 =========================================================  
-Time elapsed for count_mutual_links1: 	 	  0.051209 s     
-=========================================================    
-Reading data graph: data/web-NotreDame.txt ...  
-/# of self-links: 27455  
+Time elapsed for read_graph_from_file1: 	  0.000126 s       
+=========================================================  
+=========================================================  
+Time elapsed for count_mutual_links1: 	 	  0.000002 s       
+=========================================================  
+Reading data graph: data/web-NotreDame.txt ...   
+/# of self-links: 27455    
+=========================================================  
+Time elapsed for read_graph_from_file2: 	  0.503788 s       
+=========================================================  
 /# mutual links: 250329403  
 =========================================================  
-Time elapsed for count_mutual_links2: 	 	  0.005335 s       
+Time elapsed for count_mutual_links2: 	 	  0.004006 s       
 =========================================================  
-data	index    
-===============    
-56653	7137    
+webpage	index  
+===============  
+56653	7137  
 42023	260552  
 41871	236095  
 41868	260731  
@@ -40,11 +46,10 @@ data	index
 41868	260726  
 41868	260725  
 ===============  
-=========================================================    
-Time elapsed for top_n_webpages: 	 	  0.020446 s         
-=========================================================    
-
-
+=========================================================  
+Time elapsed for top_n_webpages: 	 	  0.002324 s       
+=========================================================  
+  
 ## Dependencies
  - stdlib.h // rand, malloc and free.
  - stdio.h  // printf

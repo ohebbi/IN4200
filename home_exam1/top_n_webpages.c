@@ -60,7 +60,7 @@ void top_n_webpages(int num_webpages, int *num_involvements, int n) {
   }
 
   // nice printing format.
-  printf("\ndata\tindex\n");
+  printf("\nwebpage\tindex\n");
   printf("===============\n");
   for (int i = 0; i < n; i++){
       printf("%d\t%d\n", top_webpages[i], top_indices[i]);
