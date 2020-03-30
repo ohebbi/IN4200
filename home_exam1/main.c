@@ -12,7 +12,12 @@
 #include "count_mutual_links2.c"
 #include "top_n_webpages.c"
 
-
+// Description:
+// Test program.
+//
+// Parameters:
+// filename1 and filename2. Reads .txt-files.
+// 
 
 int main(int argc, char **argv) {
 
@@ -20,9 +25,10 @@ int main(int argc, char **argv) {
     double total_all;
     clock_t start, end;
     double total;
-    /*
+
     int N1 = 0;
     char **table2D;
+    printf("Reading data graph: %s ... \n", argv[1]);
     read_graph_from_file1(argv[1], &N1, &table2D);
 
 
@@ -38,18 +44,15 @@ int main(int argc, char **argv) {
     printf("=========================================================\n" );
     printf("Time elapsed for count_mutual_links1: \t \t  %.6lf s     \n", total);
     printf("=========================================================\n");
-    */
+
 
     int N2 = 0;
     int N_links = 0;
 
-
-
-
     int *row_ptr;
     int *col_idx;
-
-    read_graph_from_file2(argv[1], &N2, &N_links, &row_ptr, &col_idx);
+    printf("Reading data graph: %s ... \n", argv[2]);
+    read_graph_from_file2(argv[2], &N2, &N_links, &row_ptr, &col_idx);
 
     int *num_involvements2;
     alloc1D(&num_involvements2, N2);

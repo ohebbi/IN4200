@@ -31,7 +31,6 @@ void read_graph_from_file2(char *filename, int *N, int *N_links, int **row_ptr, 
     int fromNode; int toNode;
 
     alloc1D(col_idx, *N_links);
-
     alloc1D(row_ptr, *N);
 
     alloc1D(&fromNodeId,*N_links);
@@ -58,7 +57,7 @@ void read_graph_from_file2(char *filename, int *N, int *N_links, int **row_ptr, 
     *N_links -= (totalcounts-validcounts);
 
     // The next for-loops shows how to make a CRS out of fromNodeId and toNodeId.
-    // For detailed description, one can see the report. 
+    // For detailed description, one can see the report.
     for (int i = 0; i < *N_links; i++){
         (*row_ptr)[toNodeId[i]]++;
     }

@@ -36,6 +36,7 @@ int count_mutual_links2(int N, int N_links, int *row_ptr, int *col_idx, int *num
         mutual_links[i] = 0;
     }
     else{
+        // sum of sequence
         mutual_links[i] = (mutual_links[i]-1)*mutual_links[i]*0.5;
     }
     tot_mutual_links += mutual_links[i];
