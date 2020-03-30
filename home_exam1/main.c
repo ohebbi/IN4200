@@ -44,13 +44,15 @@ int main(int argc, char **argv) {
     int N_links = 0;
 
 
-    int *num_involvements2;
-    alloc1D(&num_involvements2, N2);
+
 
     int *row_ptr;
     int *col_idx;
 
     read_graph_from_file2(argv[1], &N2, &N_links, &row_ptr, &col_idx);
+
+    int *num_involvements2;
+    alloc1D(&num_involvements2, N2);
 
     start = clock();
     count_mutual_links2(N2-1, N_links, row_ptr, col_idx, num_involvements2);
