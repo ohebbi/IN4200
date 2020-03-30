@@ -57,7 +57,7 @@ int main(int argc, char const *argv[]) {
     int *row_ptr;
     int *col_idx;
 
-    read_graph_from_file2("data/100nodes.txt", &N2, &N_links, &row_ptr, &col_idx);
+    read_graph_from_file2("data/web-NotreDame.txt", &N2, &N_links, &row_ptr, &col_idx);
 
     int *num_involvements3;
     alloc1D(&num_involvements3, N2-1);
