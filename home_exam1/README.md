@@ -27,10 +27,9 @@ Reading data graph: data/web-NotreDame.txt ...
 =========================================================  
 Time elapsed for count_mutual_links2: 	 	  0.005335 s       
 =========================================================  
-
-data	index  
-===============  
-56653	7137  
+data	index    
+===============    
+56653	7137    
 42023	260552  
 41871	236095  
 41868	260731  
@@ -45,7 +44,7 @@ data	index
 Time elapsed for top_n_webpages: 	 	  0.020446 s         
 =========================================================    
 
-  
+
 ## Dependencies
  - stdlib.h // rand, malloc and free.
  - stdio.h  // printf
