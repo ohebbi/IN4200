@@ -18,14 +18,13 @@ To clean the build, write
 - $ ./main.exe data/100nodes.txt data/web-NotreDame.txt
 
 Output:
-
 Reading data graph: data/100nodes.txt ...
 =========================================================
 Time elapsed for count_mutual_links1: 	 	  0.051209 s     
 =========================================================
 Reading data graph: data/web-NotreDame.txt ...
-# of self-links: 27455
-# mutual links: 250329403
+/# of self-links: 27455
+/# mutual links: 250329403
 =========================================================
 Time elapsed for count_mutual_links2: 	 	  0.005335 s     
 =========================================================
