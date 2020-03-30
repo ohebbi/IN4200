@@ -3,6 +3,18 @@
 
 #include "functions/functions.h"
 
+
+// Description
+// ----------
+// Will find the top n values in an 1D-array and print them out in a
+// nice format.
+//
+// Parameters
+// ----------
+// num_webpages: int
+// num_involvements: 1D-vector of length N
+// n: int
+
 void top_n_webpages(int num_webpages, int *num_involvements, int n) {
 
   int *top_indices;
@@ -15,6 +27,7 @@ void top_n_webpages(int num_webpages, int *num_involvements, int n) {
   for(int i=0; i < (n); i++){
       for (int j=0; j < (num_webpages); j++){
           if (num_involvements[j] > top_webpages[i]){
+
               // Assign new top-value
               top_webpages[i] = num_involvements[j];
               top_indices[i]  = j;
@@ -30,13 +43,12 @@ void top_n_webpages(int num_webpages, int *num_involvements, int n) {
           }
       }
   }
-
+  // nice format print
   printf("\ndata\tindex\n");
   printf("===============\n");
   for (int i = 0; i < n; i++){
       printf("%d\t%d\n", top_webpages[i], top_indices[i]);
   }
-
   printf("===============\n");
   free(top_indices);
   free(top_webpages);

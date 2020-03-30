@@ -3,6 +3,8 @@
 
 #include "functions/functions.h"
 
+// Description
+// ----------
 // Opens a text file, allocates a 2D-vector and
 // reads the web graph into the table
 //
@@ -49,8 +51,5 @@ void read_graph_from_file1(char *filename, int *N, char ***table2D) {
         }
         total_number_read = fscanf(file,"%d %d", &fromNode, &toNode);
     }
-
-    //printmat(*table2D,*N,*N);
-    //free2D(table2D);
 
 }
