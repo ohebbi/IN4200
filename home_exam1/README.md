@@ -16,7 +16,6 @@ To clean the build, write
 
 ## A successful run will look like this.
 - $ ./main.exe data/100nodes.txt data/web-NotreDame.txt
-
 Output:
 Reading data graph: data/100nodes.txt ...
 =========================================================
