@@ -57,6 +57,7 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
         printf("sendcounts: %d Sdispls: %d\n", sendcounts[i], Sdispls[i]);
     }
     */
+    printf("rank: %d, displacements:%d \n", my_rank, Sdispls);
 
     int *v_flat;
     if (my_rank == 0){
