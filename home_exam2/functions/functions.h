@@ -9,7 +9,12 @@
 //#define idx(i,j) (2*my_rank*N + i*N + j)
 
 int idx(int i, int j, int my_rank, int N){
-  return (2*my_rank*N + i*N + j);
+  if (my_rank == 0){
+    return (i*N + j);
+  }
+  else{
+    return (2*N + i*N + j);
+  }
 }
 
 int alloc2D(int ***A, int n, int m){
@@ -99,7 +104,7 @@ int assignvalues_big_matrix(int** v, int M, int N){
 }
 
 int assign_random_integers(int** v, int M, int N){
-  //srand(time(NULL));   // Initialization, should only be called once for randomn sequences. 
+  //srand(time(NULL));   // Initialization, should only be called once for randomn sequences.
   for (int i = 0; i < M; i++){
       for (int j = 0; j < N; j++){
           v[i][j] = rand() % 10;
