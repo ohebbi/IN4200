@@ -39,10 +39,8 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
         if (rank >= (numprocs - remainder)){
           n_rows[rank]++;
         }
-        printf("hallo\n");
         sendcounts[rank] = (n_rows[rank]+4)*N;
         recievecounts[rank] = (n_rows[rank]+4)*N;
-        //counts_loop[rank] = n_rows[rank]*N;
         Sdispls[rank+1] = Sdispls[rank] + (n_rows[rank]-2)*N;
 
     }
@@ -54,15 +52,15 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
 
     sendcounts[numprocs-1]    = (n_rows[numprocs-1] + 2)*N;
     recievecounts[numprocs-1] = (n_rows[numprocs-1] + 4)*N; // why not 2?
-
+    /*
     for (int i = 0; i < numprocs; i++){
         printf("sendcounts: %d Sdispls: %d\n", sendcounts[i], Sdispls[i]);
     }
-
+    */
 
     int *v_flat;
     if (my_rank == 0){
-      v_flat = malloc(M*N * sizeof *v_flat);
+      alloc1D(&v_flat, M*N);
       printmat(v,M,N);
       // Initialize to some values:
       for (size_t i = 0; i < M; i++) {
