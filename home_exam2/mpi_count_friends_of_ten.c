@@ -41,7 +41,7 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
         }
         sendcounts[rank] = (n_rows[rank]+4)*N;
         recievecounts[rank] = (n_rows[rank]+4)*N;
-        Sdispls[rank+1] = Sdispls[rank] + (n_rows[rank]-2)*N;
+        Sdispls[rank+1] = Sdispls[rank] + rows*N;
 
     }
 
