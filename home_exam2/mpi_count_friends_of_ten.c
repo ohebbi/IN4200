@@ -14,7 +14,7 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
     * This is for rows-wise decomposition
     */
     int *n_rows, *recievecounts, *sendcounts, *Sdispls;
-    
+
     // Calculate displacements and number of rows for each process.
     alloc1D(&n_rows, numprocs);
 
@@ -74,7 +74,8 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
       printf("\n");
     }
     else {
-      v_flat = malloc(M*n_rows[my_rank] * sizeof *v_flat);
+
+      alloc1D(&v_flat, recievecounts[my_rank]); //malloc(M*n_rows[my_rank] * sizeof *v_flat);
     }
 
     //scatter v and send part of the flattened 2D matrix to the other nodes
