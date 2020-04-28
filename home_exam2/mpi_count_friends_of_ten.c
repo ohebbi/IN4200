@@ -93,20 +93,20 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
 
     //printf("%d\n", n_rows[my_rank]);
 
-    /*
-    if (my_rank==0){
+    
+    if (my_rank==1){
       for (int i = 0; i < sendcounts[0]; i++){
         printf("%d ", v_flat[i]);
       }
       printf("\n");
     }
-    if (my_rank==1){
+    if (my_rank==2){
       for (int i = 0; i < sendcounts[1]; i++){
         printf("%d ", v_flat[i]);
       }
       printf("\n");
     }
-    */
+
     // ---------------------------------------------- //
     int local_friends_of_ten = 0;
 
