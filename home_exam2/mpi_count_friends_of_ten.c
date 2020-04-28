@@ -68,7 +68,7 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
       for (size_t i = 0; i < M; i++) {
           for (size_t j = 0; j < N; j++) {
               v_flat[idx(i,j,my_rank,N)] = v[i][j];
-              printf("%d ", v_flat[idx(i,j,my_rank,N)]);
+              //printf("%d ", v_flat[idx(i,j,my_rank,N)]);
           }
       }
       printf("\n");
@@ -94,7 +94,7 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
 
     //printf("%d\n", n_rows[my_rank]);
 
-
+    /*
     if (my_rank==0){
       for (int i = 0; i < sendcounts[0]; i++){
         printf("%d ", v_flat[i]);
@@ -107,14 +107,14 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
       }
       printf("\n");
     }
-
+    */
     // ---------------------------------------------- //
     int local_friends_of_ten = 0;
 
     for (int i = 0; i < n_rows[my_rank]; i++){
       //printf("%d\n", my_rank);
         for (int j = 0; j < N; j++){
-          printf("rank: %d, i:%d, j:%d:, counts: %d, idx:(%d,%d,%d), value: %d and %d and %d", my_rank, i, j, sendcounts[my_rank], idx(i,j,my_rank,N),idx(i+1,j+1,my_rank,N),idx(i+2,j+2,my_rank,N), v_flat[idx(i,j,my_rank,N)], v_flat[idx(i+1,j+1,my_rank,N)], v_flat[idx(i+2,j+2,my_rank,N)]);
+          //printf("rank: %d, i:%d, j:%d:, counts: %d, idx:(%d,%d,%d), value: %d and %d and %d", my_rank, i, j, sendcounts[my_rank], idx(i,j,my_rank,N),idx(i+1,j+1,my_rank,N),idx(i+2,j+2,my_rank,N), v_flat[idx(i,j,my_rank,N)], v_flat[idx(i+1,j+1,my_rank,N)], v_flat[idx(i+2,j+2,my_rank,N)]);
 
 
             if (idx(i+2,j,my_rank,N) < sendcounts[my_rank]){
@@ -123,7 +123,7 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
                     //printf("\n real_idx = %d, fake_idx = %d \n", 2*my_rank*N + (i+2)*N + j, idx(i+2,j));
                     local_friends_of_ten++;
                     //printf("rank %d with nr friends: %d\n", my_rank, local_friends_of_ten);
-                    printf(" downwards");
+                    //printf(" downwards");
                     //printf("myrank:%d, %d, %d\n", my_rank, i, j);
                 }
             }
@@ -134,7 +134,7 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
             if (j + 2 < N && v_flat[idx(i,j,my_rank,N)] + v_flat[idx(i,j+1,my_rank,N)] + v_flat[idx(i,j+2,my_rank,N)] == 10) {
                 local_friends_of_ten++;
                 //printf("myrank:%d, %d, %d\n", my_rank, i, j);
-                printf(" right");
+                //printf(" right");
             }
 
 
@@ -142,18 +142,20 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
             if ((2*my_rank*N + (i+2)*N + j < sendcounts[my_rank]) && j + 2 < N && v_flat[idx(i,j,my_rank,N)]+v_flat[idx(i+1,j+1,my_rank,N)]+v_flat[idx(i+2,j+2,my_rank,N)] == 10) {
                 local_friends_of_ten++;
                 //printf("myrank:%d, %d, %d\n", my_rank, i, j);
-                printf(" right-down");
+                //printf(" right-down");
             }
 
 
             if ((2*my_rank*N + (i-2)*N + j > 0) && j + 2 < N && v_flat[idx(i,j,my_rank,N)]+v_flat[idx(i-1,j+1,my_rank,N)]+v_flat[idx(i-2,j+2,my_rank,N)] == 10) {
                 local_friends_of_ten++;
                 //printf("myrank:%d, %d, %d\n", my_rank, i, j);
-                printf(" right-up");
+                //printf(" right-up");
+                printf("rank:%d,  i=%d, j=%d\n",my_rank, i, j);
+
 
             }
 
-            printf("\n");
+            //printf("\n");
         }
     }
 

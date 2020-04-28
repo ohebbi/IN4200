@@ -99,7 +99,7 @@ int assignvalues_big_matrix(int** v, int M, int N){
 }
 
 int assign_random_integers(int** v, int M, int N){
-  srand(time(NULL));   // Initialization, should only be called once.
+  //srand(time(NULL));   // Initialization, should only be called once for randomn sequences. 
   for (int i = 0; i < M; i++){
       for (int j = 0; j < N; j++){
           v[i][j] = rand() % 10;
