@@ -31,7 +31,12 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
     n_rows[0] = rows;
     sendcounts[0] = (n_rows[0] + 2)*N;
     recievecounts[0] = (n_rows[0] + 2)*N;
-    Sdispls[1]    = (n_rows[0] - 2)*N;
+    if (n_rows[0]-2<=0){
+      Sdispls[1]    = 0;
+    }
+    else{
+      Sdispls[1]    = (n_rows[0] - 2)*N;
+    }
 
     // Last remainder processes gets an extra row.
     for (int rank = 1; rank < numprocs-1; rank++) {
