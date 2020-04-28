@@ -57,7 +57,7 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
         printf("sendcounts: %d Sdispls: %d\n", sendcounts[i], Sdispls[i]);
     }
     */
-    printf("rank: %d, displacements:%d \n", my_rank, Sdispls[my_rank]);
+    printf("rank: %d, displacements:%d, num_rows = %d \n", my_rank, Sdispls[my_rank], n_rows[my_rank]);
 
     int *v_flat;
     if (my_rank == 0){
@@ -93,7 +93,7 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
 
     //printf("%d\n", n_rows[my_rank]);
 
-    
+
     if (my_rank==1){
       for (int i = 0; i < sendcounts[0]; i++){
         printf("%d ", v_flat[i]);
