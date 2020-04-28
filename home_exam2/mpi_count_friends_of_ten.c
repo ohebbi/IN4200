@@ -113,10 +113,11 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
       //printf("%d\n", my_rank);
         for (int j = 0; j < N; j++){
             //printf("rank: %d, i:%d, j:%d:, counts: %d, idx:(%d,%d,%d), value: %d and %d and %d", my_rank, i, j, sendcounts[my_rank], idx(i,j,my_rank,N),idx(i+1,j+1,my_rank,N),idx(i+2,j+2,my_rank,N), v_flat[idx(i,j,my_rank,N)], v_flat[idx(i+1,j+1,my_rank,N)], v_flat[idx(i+2,j+2,my_rank,N)]);
+            /*
             if (j==1){
                 printf("rank: %d, i:%d, j:%d:, counts: %d, idx:(%d,%d,%d), value: %d and %d and %d\n", my_rank, i, j, sendcounts[my_rank], idx(i,j,my_rank,N),idx(i+1,j,my_rank,N),idx(i+2,j,my_rank,N), v_flat[idx(i,j,my_rank,N)], v_flat[idx(i+1,j,my_rank,N)], v_flat[idx(i+2,j,my_rank,N)]);
             }
-
+            */
             if ((idx(i+2,j,my_rank,N) < sendcounts[my_rank]) && i+2 < M ){
 
                 if (v_flat[idx(i,j,my_rank,N)] + v_flat[idx(i+1,j,my_rank,N)] + v_flat[idx(i+2,j,my_rank,N)] == 10) {
@@ -124,7 +125,7 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
                     local_friends_of_ten++;
                     //printf("rank %d with nr friends: %d\n", my_rank, local_friends_of_ten);
                     //printf(" downwards");
-                    printf("score - myrank:%d, i=(%d,%d,%d), j=%d\n", my_rank, i,i+1,i+2, j);
+                    printf("myrank:%d, i=(%d,%d,%d), j=%d\n", my_rank, i,i+1,i+2, j);
                 }
             }
 
