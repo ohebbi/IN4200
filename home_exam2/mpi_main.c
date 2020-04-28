@@ -12,14 +12,29 @@ int main (int argc, char **argv) {
   MPI_Comm_rank (MPI_COMM_WORLD, &my_rank);
 
   if (my_rank==0) {
-    // decide the values for M and N
+    // decide the values for M and N and
+    // allocate 2D array v and assign it with suitable values
+
+    /*
+    M = 5;
+    N = 5;
+    alloc2D(&v, M, N);
+
+    assignvalues(v, M, N);
+    */
+
+    /*
     M = 10;
     N = 6;
-
-    // allocate 2D array v and assign it with suitable values
     alloc2D(&v, M, N);
-    //assignvalues(v, M, N);
+
     assignvalues_big_matrix(v, M, N);
+    */
+
+    M = 50;
+    N = 50;
+    alloc2D(&v, M, N);
+    assign_random_integers(v, M, N);
 
   }
   num_triple_friends = MPI_count_friends_of_ten (M, N, v);

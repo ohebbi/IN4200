@@ -4,6 +4,7 @@
 
 #include <stdlib.h> // rand, malloc and free.
 #include <stdio.h>  // printf
+#include <time.h> //
 
 //#define idx(i,j) (2*my_rank*N + i*N + j)
 
@@ -83,12 +84,6 @@ int assignvalues(int** v, int M, int N){
 
 int assignvalues_big_matrix(int** v, int M, int N){
 
-  for (int i = 0; i < M; i++){
-    for (int j = 0; j < N; j++){
-      v[i][j] = 0;
-    }
-  }
-
   v[0][0] = 0; v[0][1] = 4; v[0][2] = 0; v[0][3] = 0; v[0][4] = 0; v[0][4] = 0;
   v[1][0] = 6; v[1][2] = 2; v[1][2] = 4; v[1][3] = 5; v[1][4] = 7; v[1][4] = 9;
   v[2][0] = 6; v[2][1] = 5; v[2][2] = 4; v[2][3] = 3; v[2][4] = 2; v[2][4] = 1;
@@ -103,4 +98,13 @@ int assignvalues_big_matrix(int** v, int M, int N){
   return 0;
 }
 
+int assign_random_integers(int** v, int M, int N){
+  srand(time(NULL));   // Initialization, should only be called once.
+  for (int i = 0; i < M; i++){
+      for (int j = 0; j < N; j++){
+          v[i][j] = rand() % 10;
+      }
+  }
+  return 0;
+}
 #endif
