@@ -13,15 +13,15 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
     /*
     * This is for rows-wise decomposition
     */
-
+    int *n_rows, *recievecounts, *sendcounts, *Sdispls;
+    
     // Calculate displacements and number of rows for each process.
-    int *n_rows = malloc(numprocs*sizeof *n_rows);
+    alloc1D(&n_rows, numprocs);
 
     // Used when scattering the matrix.
-    int *recievecounts = malloc(numprocs*sizeof *recievecounts);
-    int *sendcounts = malloc(numprocs*sizeof *sendcounts);
-    int *Sdispls = malloc(numprocs*sizeof *Sdispls);
-
+    alloc1D(&recievecounts, numprocs);
+    alloc1D(&sendcounts, numprocs);
+    alloc1D(&Sdispls, numprocs);
 
     int rows = M/numprocs;
     int remainder = M%numprocs;
@@ -115,7 +115,7 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
         for (int j = 0; j < N; j++){
           printf("rank: %d, i:%d, j:%d:, counts: %d, idx:(%d,%d,%d), value: %d and %d and %d", my_rank, i, j, sendcounts[my_rank], idx(i,j,my_rank,N),idx(i+1,j+1,my_rank,N),idx(i+2,j+2,my_rank,N), v_flat[idx(i,j,my_rank,N)], v_flat[idx(i+1,j+1,my_rank,N)], v_flat[idx(i+2,j+2,my_rank,N)]);
 
-          
+
             if (idx(i+2,j,my_rank,N) < sendcounts[my_rank]){
 
                 if (v_flat[idx(i,j,my_rank,N)] + v_flat[idx(i+1,j,my_rank,N)] + v_flat[idx(i+2,j,my_rank,N)] == 10) {
