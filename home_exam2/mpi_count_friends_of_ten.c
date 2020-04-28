@@ -51,7 +51,7 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
     }
 
     sendcounts[numprocs-1]    = (n_rows[numprocs-1] + 2)*N;
-    recievecounts[numprocs-1] = (n_rows[numprocs-1] + 4)*N; // why not 2?
+    recievecounts[numprocs-1] = (n_rows[numprocs-1] + 2)*N; // why not 2?
     /*
     for (int i = 0; i < numprocs; i++){
         printf("sendcounts: %d Sdispls: %d\n", sendcounts[i], Sdispls[i]);
