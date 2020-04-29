@@ -129,7 +129,7 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
 
     //printf("%d\n", n_rows[my_rank]);
 
-    /*
+
     if (my_rank==1){
       printf("my_rank=%d\n", my_rank);
       for (int i = 0; i < sendcounts[1]; i++){
@@ -137,6 +137,7 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
       }
       printf("\n");
     }
+    /*
     if (my_rank==2){
       printf("my_rank=%d\n", my_rank);
       for (int i = 0; i < sendcounts[2]; i++){
@@ -144,7 +145,7 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
       }
       printf("\n");
     }
-    */
+
     if (my_rank==3){
       printf("my_rank=%d\n", my_rank);
       for (int i = 0; i < sendcounts[3]; i++){
@@ -152,7 +153,7 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
       }
       printf("\n");
     }
-
+    */
     // ---------------------------------------------- //
     int local_friends_of_ten = 0;
 
@@ -160,7 +161,12 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
       //printf("%d\n", my_rank);
         for (int j = 0; j < N; j++){
             //printf("rank: %d, i:%d, j:%d:, counts: %d, idx:(%d,%d,%d), value: %d and %d and %d", my_rank, i, j, sendcounts[my_rank], idx(i,j,my_rank,N),idx(i+1,j,my_rank,N),idx(i+2,j,my_rank,N), v_flat[idx(i,j,my_rank,N)], v_flat[idx(i+1,j,my_rank,N)], v_flat[idx(i+2,j,my_rank,N)]);
+            if (my_rank==1 && i == 0){
+              if (j==2 && j == 9){
+                printf("Denne - rank: %d, i = %d, j = %d, value = %d+%d+%d, idx = (%d,%d,%d)\n", my_rank, i, j, v_flat[idx(i,j,my_rank,N)], v_flat[idx(i+1,j,my_rank,N)], v_flat[idx(i+2,j,my_rank,N)], idx(i,j,my_rank,N), idx(i+1,j,my_rank,N), idx(i+2,j,my_rank,N));
+              }
 
+            }
             if ((idx(i+2,j,my_rank,N) < sendcounts[my_rank]) &&\
                  i+2 < M ){
 
@@ -202,7 +208,7 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
             }
 
 
-            if ((idx(i-2,j,my_rank,N)+Sdispls[my_rank] >= 0) && j + 2 < N){
+            if ((idx(i-2,j,my_rank,N)+Sdispls[my_rank] >= 0) && j + 2 < N){ //for rank 1 if n_row[my_rank]==1.
                 if (v_flat[idx(i  ,j  ,my_rank,N)]
                    +v_flat[idx(i-1,j+1,my_rank,N)]
                    +v_flat[idx(i-2,j+2,my_rank,N)] == 10) {
