@@ -19,7 +19,6 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
     alloc1D(&n_rows, numprocs);
 
     // Used when scattering the matrix.
-    alloc1D(&recievecounts, numprocs);
     alloc1D(&sendcounts, numprocs);
     alloc1D(&Sdispls, numprocs);
 
@@ -73,7 +72,7 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
 
     if (my_rank==0){
         for (int i = 0; i < numprocs; i++){
-            printf("rank: %d, sendcounts: %d displacements: %d, recievecounts = %d, num_rows = %d\n",i, sendcounts[i], Sdispls[i],recievecounts[i],n_rows[i]);
+            printf("rank: %d, sendcounts: %d displacements: %d, num_rows = %d\n",i, sendcounts[i], Sdispls[i],n_rows[i]);
         }
     }
 
