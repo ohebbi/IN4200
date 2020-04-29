@@ -40,6 +40,8 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
         sendcounts[0] = n_rows[0]*N;
         //printf("rows=%d, numprocs=%d, tall 120 = %d, while sendcounts=%d ?\n",rows, numprocs, n_rows[0]*N,sendcounts[0]);
     }
+    Sdispls[1]    = (n_rows[0] - 2)*N;
+
 
     // Last remainder processes gets an extra row.
     for (int rank = 1; rank < numprocs-1; rank++) {
@@ -63,7 +65,6 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
 
     // Given many nodes will result in very few rows for each node, this will
     // keep the program sane.
-    Sdispls[1]    = (n_rows[0] - 2)*N;
     /*
     if (n_rows[0]-2<=0){
       Sdispls[1]    = 0;
@@ -75,7 +76,7 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
         sendcounts[numprocs-1]    = (n_rows[numprocs-1] + 2)*N;
     }
     if (n_rows[1]==0) {
-        sendcounts[1] -= N;
+        sendcounts[1] =- N;
 
     }
 
