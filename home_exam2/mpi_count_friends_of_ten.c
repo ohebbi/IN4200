@@ -1,6 +1,6 @@
 #include <stdlib.h> // rand, malloc and free.
 #include <stdio.h>  // printf
-
+#include <assert.h> // self-explanatory assert
 int MPI_count_friends_of_ten(int M, int N, int** v){
     int numprocs, my_rank;
 
@@ -13,7 +13,7 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
     /*
     * This is for rows-wise decomposition
     */
-    int *n_rows, *recievecounts, *sendcounts, *Sdispls;
+    int *n_rows, *sendcounts, *Sdispls;
 
     // Calculate displacements and number of rows for each process.
     alloc1D(&n_rows, numprocs);
@@ -25,7 +25,10 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
     int rows = M/numprocs;
     int remainder = M%numprocs;
 
-    // First rank only has overlap underneath
+    // Test that the number of processors is actually well-thought-about
+    assert(numprocs<=M && "Number of nodes > number of rows!!");
+
+    // First rank has overlap only underneath.
     Sdispls[0] = 0;
     n_rows[0] = rows;
     sendcounts[0] = (n_rows[0] + 2)*N;
@@ -34,13 +37,6 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
     if (numprocs<2){
         sendcounts[0] = n_rows[0]*N;
         //printf("rows=%d, numprocs=%d, tall 120 = %d, while sendcounts=%d ?\n",rows, numprocs, n_rows[0]*N,sendcounts[0]);
-
-    }
-    // Given many nodes will result in very few rows for each node, this will
-    // keep the program sane.
-    Sdispls[1]    = (n_rows[0] - 2)*N;
-    if (n_rows[0]-2<=0){
-      Sdispls[1]    = 0;
     }
 
     // Last remainder processes gets an extra row.
@@ -52,10 +48,6 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
         if (rank >= (numprocs - remainder)){
           n_rows[rank]++;
         }
-
-        // 2 rows overlap over and under the rows for each node
-        sendcounts[rank] = (n_rows[rank]+4)*N;
-        Sdispls[rank+1] = Sdispls[rank] + n_rows[rank]*N;
     }
 
     // If more rows remains.
@@ -63,6 +55,20 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
     if (numprocs-1 >= (numprocs - remainder)){
         n_rows[numprocs-1]++;
     }
+
+    // Given many nodes will result in very few rows for each node, this will
+    // keep the program sane.
+    Sdispls[1]    = (n_rows[0] - 2)*N;
+    if (n_rows[0]-2<=0){
+      Sdispls[1]    = 0;
+    }
+
+    for (int rank = 1; rank < numprocs-1; rank++){
+        // 2 rows overlap over and under the rows for each node
+        sendcounts[rank] = (n_rows[rank]+4)*N;
+        Sdispls[rank+1] = Sdispls[rank] + n_rows[rank]*N;
+    }
+
 
     // In case number of nodes is 1, then this will become trouble without if loop.
     if (numprocs>1){
