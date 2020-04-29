@@ -31,6 +31,12 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
     n_rows[0] = rows;
     sendcounts[0] = (n_rows[0] + 2)*N;
     recievecounts[0] = (n_rows[0] + 2)*N;
+    if (numprocs<2){
+        sendcounts[0] = n_rows[0]*N;
+        recievecounts[0] = n_rows[0]*N;
+        //printf("rows=%d, numprocs=%d, tall 120 = %d, while sendcounts=%d ?\n",rows, numprocs, n_rows[0]*N,sendcounts[0]);
+
+    }
     if (n_rows[0]-2<=0){
       Sdispls[1]    = 0;
     }
@@ -52,16 +58,18 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
 
     n_rows[numprocs-1] = rows;
     if (numprocs-1 >= (numprocs - remainder)){
-      n_rows[numprocs-1]++;
+        n_rows[numprocs-1]++;
+    }
+    if (numprocs>1){
+        sendcounts[numprocs-1]    = (n_rows[numprocs-1] + 2)*N;
+        recievecounts[numprocs-1] = (n_rows[numprocs-1] + 2)*N; // why not 2?
+    }
+    if (my_rank==0){
+        for (int i = 0; i < numprocs; i++){
+            printf("sendcounts: %d Sdispls: %d\n", sendcounts[i], Sdispls[i]);
+        }
     }
 
-    sendcounts[numprocs-1]    = (n_rows[numprocs-1] + 2)*N;
-    recievecounts[numprocs-1] = (n_rows[numprocs-1] + 2)*N; // why not 2?
-    /*
-    for (int i = 0; i < numprocs; i++){
-        printf("sendcounts: %d Sdispls: %d\n", sendcounts[i], Sdispls[i]);
-    }
-    */
     printf("rank: %d, displacements:%d, num_rows = %d \n", my_rank, Sdispls[my_rank], n_rows[my_rank]);
 
     int *v_flat;
@@ -72,7 +80,6 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
       for (size_t i = 0; i < M; i++) {
           for (size_t j = 0; j < N; j++) {
               v_flat[idx(i,j,my_rank,N)] = v[i][j];
-              //printf("%d ", v_flat[idx(i,j,my_rank,N)]);
           }
       }
       printf("\n");
@@ -111,6 +118,12 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
       }
       printf("\n");
     }
+    if (my_rank==3){
+      for (int i = 0; i < sendcounts[2]; i++){
+        printf("%d ", v_flat[i]);
+      }
+      printf("\n");
+    }
 
     // ---------------------------------------------- //
     int local_friends_of_ten = 0;
@@ -134,7 +147,7 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
             }
 
             /*
-            //correct one
+            //correct one --- hooold that thought
 
             if (j + 2 < N && v_flat[idx(i,j,my_rank,N)] + v_flat[idx(i,j+1,my_rank,N)] + v_flat[idx(i,j+2,my_rank,N)] == 10) {
                 local_friends_of_ten++;
