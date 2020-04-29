@@ -25,8 +25,10 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
     int rows = M/numprocs;
     int remainder = M%numprocs;
 
-    // Test that the number of processors is actually well-thought-about
-    assert(numprocs<=M && "Number of nodes > number of rows!!");
+    // Test that the number of processors is actually well-thought-about.
+    assert(numprocs<=M && "Number of nodes >!  number of rows!!");
+    assert(rows>2 && "Increase dimension of matrix or decrease number of\
+                nodes. Maybe serial-implementation is a better option.");
 
     // First rank has overlap only underneath.
     Sdispls[0] = 0;
@@ -48,6 +50,9 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
         if (rank >= (numprocs - remainder)){
           n_rows[rank]++;
         }
+        // 2 rows overlap over and under the rows for each node
+        sendcounts[rank] = (n_rows[rank]+4)*N;
+        Sdispls[rank+1] = Sdispls[rank] + n_rows[rank]*N;
     }
 
     // If more rows remains.
@@ -59,22 +64,20 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
     // Given many nodes will result in very few rows for each node, this will
     // keep the program sane.
     Sdispls[1]    = (n_rows[0] - 2)*N;
+    /*
     if (n_rows[0]-2<=0){
       Sdispls[1]    = 0;
     }
-
-    for (int rank = 1; rank < numprocs-1; rank++){
-        // 2 rows overlap over and under the rows for each node
-        sendcounts[rank] = (n_rows[rank]+4)*N;
-        Sdispls[rank+1] = Sdispls[rank] + n_rows[rank]*N;
-    }
-
+    */
 
     // In case number of nodes is 1, then this will become trouble without if loop.
     if (numprocs>1){
         sendcounts[numprocs-1]    = (n_rows[numprocs-1] + 2)*N;
     }
+    if (n_rows[1]==0) {
+        sendcounts[1] -= N;
 
+    }
 
     if (my_rank==0){
         for (int i = 0; i < numprocs; i++){
@@ -100,6 +103,8 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
 
       alloc1D(&v_flat, sendcounts[my_rank]); //malloc(M*n_rows[my_rank] * sizeof *v_flat);
     }
+
+
 
     //scatter v and send part of the flattened 2D matrix to the other nodes
     MPI_Scatterv(v_flat,                 // Sendbuff, matters only for root process.
@@ -148,9 +153,12 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
         for (int j = 0; j < N; j++){
             //printf("rank: %d, i:%d, j:%d:, counts: %d, idx:(%d,%d,%d), value: %d and %d and %d", my_rank, i, j, sendcounts[my_rank], idx(i,j,my_rank,N),idx(i+1,j,my_rank,N),idx(i+2,j,my_rank,N), v_flat[idx(i,j,my_rank,N)], v_flat[idx(i+1,j,my_rank,N)], v_flat[idx(i+2,j,my_rank,N)]);
 
-            if ((idx(i+2,j,my_rank,N) < sendcounts[my_rank]) && i+2 < M ){
+            if ((idx(i+2,j,my_rank,N) < sendcounts[my_rank]) &&\
+                 i+2 < M ){
 
-                if (v_flat[idx(i,j,my_rank,N)] + v_flat[idx(i+1,j,my_rank,N)] + v_flat[idx(i+2,j,my_rank,N)] == 10) {
+                if (v_flat[idx(i  ,j,my_rank,N)]\
+                  + v_flat[idx(i+1,j,my_rank,N)]\
+                  + v_flat[idx(i+2,j,my_rank,N)] == 10) {
 
                     local_friends_of_ten++;
                     printf("rank: %d, i = %d, j = %d, value = %d+%d+%d, idx = (%d,%d,%d)\n", my_rank, i, j, v_flat[idx(i,j,my_rank,N)], v_flat[idx(i+1,j,my_rank,N)], v_flat[idx(i+2,j,my_rank,N)], idx(i,j,my_rank,N), idx(i+1,j,my_rank,N), idx(i+2,j,my_rank,N));
@@ -164,7 +172,9 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
             /*
             //correct one --- hooold that thought
 
-            if (j + 2 < N && v_flat[idx(i,j,my_rank,N)] + v_flat[idx(i,j+1,my_rank,N)] + v_flat[idx(i,j+2,my_rank,N)] == 10) {
+            if (j + 2 < N && v_flat[idx(i,j  ,my_rank,N)]\
+                           + v_flat[idx(i,j+1,my_rank,N)]\
+                           + v_flat[idx(i,j+2,my_rank,N)] == 10) {
                 local_friends_of_ten++;
                 //printf("myrank:%d, %d, %d\n", my_rank, i, j);
                 //printf(" right");
@@ -172,7 +182,11 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
 
 
 
-            if ((2*my_rank*N + (i+2)*N + j < sendcounts[my_rank]) && j + 2 < N && v_flat[idx(i,j,my_rank,N)]+v_flat[idx(i+1,j+1,my_rank,N)]+v_flat[idx(i+2,j+2,my_rank,N)] == 10) {
+            if ((2*my_rank*N + (i+2)*N + j < sendcounts[my_rank]) &&\\
+                j + 2 < N && v_flat[idx(i  ,j  ,my_rank,N)]\
+                            +v_flat[idx(i+1,j+1,my_rank,N)]\
+                            +v_flat[idx(i+2,j+2,my_rank,N)] == 10) {
+
                 local_friends_of_ten++;
                 //printf("myrank:%d, %d, %d\n", my_rank, i, j);
                 //printf(" right-down");
