@@ -26,44 +26,58 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
     int rows = M/numprocs;
     int remainder = M%numprocs;
 
-    // First rank
+    // First rank only has overlap underneath
     Sdispls[0] = 0;
     n_rows[0] = rows;
     sendcounts[0] = (n_rows[0] + 2)*N;
     recievecounts[0] = (n_rows[0] + 2)*N;
+
+    // Only one node will require no overlap.
     if (numprocs<2){
         sendcounts[0] = n_rows[0]*N;
         recievecounts[0] = n_rows[0]*N;
         //printf("rows=%d, numprocs=%d, tall 120 = %d, while sendcounts=%d ?\n",rows, numprocs, n_rows[0]*N,sendcounts[0]);
 
     }
+    // Given many nodes will result in very few rows for each node, this will
+    // keep the program sane.
     if (n_rows[0]-2<=0){
       Sdispls[1]    = 0;
     }
-    else{
-      Sdispls[1]    = (n_rows[0] - 2)*N;
-    }
+
+
+    Sdispls[1]    = (n_rows[0] - 2)*N;
+
 
     // Last remainder processes gets an extra row.
     for (int rank = 1; rank < numprocs-1; rank++) {
         n_rows[rank] = rows;
+
+        // If more rows remains, then we need to stack them up starting from
+        // the bottom and up
         if (rank >= (numprocs - remainder)){
           n_rows[rank]++;
         }
+
+        // 2 rows overlap over and under the rows for each node
         sendcounts[rank] = (n_rows[rank]+4)*N;
         recievecounts[rank] = (n_rows[rank]+4)*N;
         Sdispls[rank+1] = Sdispls[rank] + rows*N;
-
     }
 
+    // If more rows remains.
     n_rows[numprocs-1] = rows;
     if (numprocs-1 >= (numprocs - remainder)){
         n_rows[numprocs-1]++;
     }
+
+    // In case number of nodes is 1, then this will become trouble without if loop.
     if (numprocs>1){
         sendcounts[numprocs-1]    = (n_rows[numprocs-1] + 2)*N;
         recievecounts[numprocs-1] = (n_rows[numprocs-1] + 2)*N; // why not 2?
     }
+
+
     if (my_rank==0){
         for (int i = 0; i < numprocs; i++){
             printf("rank: %d, sendcounts: %d displacements: %d, recievecounts = %d, num_rows = %d\n",i, sendcounts[i], Sdispls[i],recievecounts[i],n_rows[i]);
@@ -95,7 +109,7 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
                  Sdispls,
                  MPI_INT,
                  v_flat,                 // Recieve buff is the same as sendbuf here.
-                 recievecounts[my_rank],
+                 M*N,
                  MPI_INT,
                  0,
                  MPI_COMM_WORLD);
