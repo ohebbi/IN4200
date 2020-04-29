@@ -181,36 +181,41 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
                 if (v_flat[idx(i,j  ,my_rank,N)]\
                   + v_flat[idx(i,j+1,my_rank,N)]\
                   + v_flat[idx(i,j+2,my_rank,N)] == 10) {
-                    
+
                     local_friends_of_ten++;
                 //printf("myrank:%d, %d, %d\n", my_rank, i, j);
                 //printf(" right");
                 }
             }
 
-            /*
 
-            if ((2*my_rank*N + (i+2)*N + j < sendcounts[my_rank]) &&\\
-                j + 2 < N && v_flat[idx(i  ,j  ,my_rank,N)]\
-                            +v_flat[idx(i+1,j+1,my_rank,N)]\
-                            +v_flat[idx(i+2,j+2,my_rank,N)] == 10) {
 
-                local_friends_of_ten++;
-                //printf("myrank:%d, %d, %d\n", my_rank, i, j);
-                //printf(" right-down");
+            if ((2*my_rank*N + (i+2)*N + j < sendcounts[my_rank]) && (j + 2 < N)){
+                if (v_flat[idx(i  ,j  ,my_rank,N)]\
+                   +v_flat[idx(i+1,j+1,my_rank,N)]\
+                   +v_flat[idx(i+2,j+2,my_rank,N)] == 10) {
+
+                     local_friends_of_ten++;
+                     //printf("myrank:%d, %d, %d\n", my_rank, i, j);
+                     //printf(" right-down");
+                }
             }
 
 
-            if ((2*my_rank*N + (i-2)*N + j > 0) && j + 2 < N && v_flat[idx(i,j,my_rank,N)]+v_flat[idx(i-1,j+1,my_rank,N)]+v_flat[idx(i-2,j+2,my_rank,N)] == 10) {
-                local_friends_of_ten++;
-                //printf("myrank:%d, %d, %d\n", my_rank, i, j);
-                //printf(" right-up");
+            if ((2*my_rank*N + (i-2)*N + j > 0) && j + 2 < N){
+                if (v_flat[idx(i  ,j  ,my_rank,N)]
+                   +v_flat[idx(i-1,j+1,my_rank,N)]
+                   +v_flat[idx(i-2,j+2,my_rank,N)] == 10) {
 
-                //printf("rank:%d,  i=%d, j=%d\n",my_rank, i, j);
+                    local_friends_of_ten++;
+                    //printf("myrank:%d, %d, %d\n", my_rank, i, j);
+                    //printf(" right-up");
 
+                    //printf("rank:%d,  i=%d, j=%d\n",my_rank, i, j);
+                }
 
             }
-            */
+
             //printf("\n");
         }
     }
