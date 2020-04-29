@@ -59,6 +59,11 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
         Sdispls[rank+1] = Sdispls[rank] + n_rows[rank]*N;
     }
 
+    // To get the correct dimensions.
+    if (num_rows[1]==1){
+      sendcounts[1] += N;
+    }
+
     // If more rows remains.
     n_rows[numprocs-1] = rows;
     if (numprocs-1 >= (numprocs - remainder)){
