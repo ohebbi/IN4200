@@ -77,7 +77,9 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
     }
     if (n_rows[1]==1) {
         sendcounts[1] -= N;
-
+    }
+    if (n_rows[numprocs-1]==1){
+        n_rows[numprocs-1] -= N;
     }
 
     if (my_rank==0){
