@@ -191,7 +191,7 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
             }
 
             */
-
+            /*
             if ((idx(i+2,j,my_rank,N) < sendcounts[my_rank]) && (j + 2 < N)){
                 if (v_flat[idx(i  ,j  ,my_rank,N)]\
                    +v_flat[idx(i+1,j+1,my_rank,N)]\
@@ -202,9 +202,9 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
                      //printf(" right-down");
                 }
             }
+            */
 
-            /*
-            if ((2*my_rank*N + (i-2)*N + j > 0) && j + 2 < N){
+            if ((idx(i-2,j,my_rank,N)  > 0) && j + 2 < N){
                 if (v_flat[idx(i  ,j  ,my_rank,N)]
                    +v_flat[idx(i-1,j+1,my_rank,N)]
                    +v_flat[idx(i-2,j+2,my_rank,N)] == 10) {
@@ -217,7 +217,7 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
                 }
 
             }
-            */
+
             //printf("\n");
         }
     }
