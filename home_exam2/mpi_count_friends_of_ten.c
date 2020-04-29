@@ -27,7 +27,7 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
 
     // Test that the number of processors is actually well-thought-about.
     assert(numprocs<=M && "Number of nodes >!  number of rows!!");
-    assert(rows>1 && "Increase dimension of matrix or decrease number of\
+    //assert(rows>1 && "Increase dimension of matrix or decrease number of\
                 nodes. Maybe serial-implementation is a better option.");
 
     // First rank has overlap only underneath.
