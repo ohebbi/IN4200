@@ -8,10 +8,10 @@ int count_friends_of_ten(int M, int N, int** v){
 
             if (i + 2 < M && v[i][j] + v[i+1][j] + v[i+2][j] == 10) {
                 friends_of_ten++;
-                printf("%d, %d\n", i, j);
+                //printf("%d, %d\n", i, j);
             }
 
-            
+
             if (j + 2 < N && v[i][j] + v[i][j+1] + v[i][j+2] == 10) {
                 friends_of_ten++;
                 //printf("%d, %d\n", i, j);

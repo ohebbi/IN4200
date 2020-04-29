@@ -23,8 +23,8 @@ int main(int argc, char const *argv[]) {
   assignvalues_big_matrix(v, M, N);
   */
 
-  M = 20;
-  N = 35;
+  M = 40;
+  N = 50;
   alloc2D(&v, M, N);
   assign_random_integers(v, M, N);
 
