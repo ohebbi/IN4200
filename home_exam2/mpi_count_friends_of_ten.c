@@ -102,7 +102,7 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
                  Sdispls,
                  MPI_INT,
                  v_flat,                 // Recieve buff is the same as sendbuf here.
-                 sendcounts[my_rank],
+                 M*N,
                  MPI_INT,
                  0,
                  MPI_COMM_WORLD);
