@@ -63,6 +63,8 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
         n_rows[numprocs-1]++;
     }
 
+
+
     // Given many nodes will result in very few rows for each node, this will
     // keep the program sane.
     /*
@@ -79,7 +81,7 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
         sendcounts[1] -= N;
     }
     if (n_rows[numprocs-1]==1){
-        n_rows[numprocs-1] -= N;
+        n_rows[numprocs-2] -= N;
     }
 
     if (my_rank==0){
