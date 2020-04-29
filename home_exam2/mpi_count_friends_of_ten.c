@@ -44,10 +44,7 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
     if (n_rows[0]-2<=0){
       Sdispls[1]    = 0;
     }
-
-
     Sdispls[1]    = (n_rows[0] - 2)*N;
-
 
     // Last remainder processes gets an extra row.
     for (int rank = 1; rank < numprocs-1; rank++) {
@@ -62,7 +59,7 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
         // 2 rows overlap over and under the rows for each node
         sendcounts[rank] = (n_rows[rank]+4)*N;
         recievecounts[rank] = (n_rows[rank]+4)*N;
-        Sdispls[rank+1] = Sdispls[rank] + rows*N;
+        Sdispls[rank+1] = Sdispls[rank] + n_rows[rank]*N;
     }
 
     // If more rows remains.
