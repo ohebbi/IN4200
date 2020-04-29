@@ -23,13 +23,13 @@ int main(int argc, char const *argv[]) {
   assignvalues_big_matrix(v, M, N);
   */
 
-  M = 40;
-  N = 50;
+  M = 10000;
+  N = 10000;
   alloc2D(&v, M, N);
   assign_random_integers(v, M, N);
 
   int number_of_friends = count_friends_of_ten(M, N, v);
   printf("number of friends: %d\n", number_of_friends);
-  printmat(v, M, N);
+  //printmat(v, M, N);
   return 0;
 }
