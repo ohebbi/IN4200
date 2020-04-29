@@ -9,7 +9,7 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
 
     MPI_Bcast(&N, 1, MPI_INT, 0, MPI_COMM_WORLD);
     MPI_Bcast(&M, 1, MPI_INT, 0, MPI_COMM_WORLD);
-
+    printf("\nNumber of processors: %d%s\n\n", );
     /*
     * This is for rows-wise decomposition
     */
