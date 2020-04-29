@@ -66,11 +66,11 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
     }
     if (my_rank==0){
         for (int i = 0; i < numprocs; i++){
-            printf("sendcounts: %d Sdispls: %d\n", sendcounts[i], Sdispls[i]);
+            printf("rank: %d, sendcounts: %d displacements: %d, recievecounts = %d, num_rows = %d\n",i, sendcounts[i], Sdispls[i],recievecounts[i],n_rows[i]);
         }
     }
 
-    printf("rank: %d, displacements:%d, num_rows = %d \n", my_rank, Sdispls[my_rank], n_rows[my_rank]);
+    //printf("rank: %d, displacements:%d, num_rows = %d \n", my_rank, Sdispls[my_rank], n_rows[my_rank]);
 
     int *v_flat;
     if (my_rank == 0){
