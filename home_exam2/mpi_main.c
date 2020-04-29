@@ -31,8 +31,8 @@ int main (int argc, char **argv) {
     assignvalues_big_matrix(v, M, N);
     */
 
-    M = 10;
-    N = 12;
+    M = 20;
+    N = 35;
     alloc2D(&v, M, N);
     assign_random_integers(v, M, N);
 
