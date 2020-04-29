@@ -1,6 +1,20 @@
 #include <stdlib.h> // rand, malloc and free.
 #include <stdio.h>  // printf
-
+// Description
+// ----------
+// Finds friends of ten of a MxN 2D-matrix by using a
+// a serial program.
+//
+// Parameters
+// ----------
+// M: int
+// N: initialized int
+// v: initialized 2D-vector as int.
+//
+// Returns
+// ----------
+// friends_of_ten: int
+//
 int count_friends_of_ten(int M, int N, int** v){
     int friends_of_ten = 0;
     for (int i = 0; i < M; i++){
