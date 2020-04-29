@@ -210,6 +210,8 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
                    +v_flat[idx(i-2,j+2,my_rank,N)] == 10) {
 
                     local_friends_of_ten++;
+                    printf("rank: %d, i = %d, j = %d, value = %d+%d+%d, idx = (%d,%d,%d)\n", my_rank, i, j, v_flat[idx(i,j,my_rank,N)], v_flat[idx(i-1,j+1,my_rank,N)], v_flat[idx(i-2,j+2,my_rank,N)], idx(i,j,my_rank,N), idx(i-1,j+1,my_rank,N), idx(i-2,j+2,my_rank,N));
+
                     //printf("myrank:%d, %d, %d\n", my_rank, i, j);
                     //printf(" right-up");
 
