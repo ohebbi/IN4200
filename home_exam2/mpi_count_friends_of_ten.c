@@ -122,21 +122,21 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
 
     if (my_rank==1){
       printf("my_rank=%d\n", my_rank);
-      for (int i = 0; i < sendcounts[0]; i++){
+      for (int i = 0; i < sendcounts[1]; i++){
         printf("%d ", v_flat[i]);
       }
       printf("\n");
     }
     if (my_rank==2){
       printf("my_rank=%d\n", my_rank);
-      for (int i = 0; i < sendcounts[1]; i++){
+      for (int i = 0; i < sendcounts[2]; i++){
         printf("%d ", v_flat[i]);
       }
       printf("\n");
     }
     if (my_rank==3){
       printf("my_rank=%d\n", my_rank);
-      for (int i = 0; i < sendcounts[2]; i++){
+      for (int i = 0; i < sendcounts[3]; i++){
         printf("%d ", v_flat[i]);
       }
       printf("\n");
