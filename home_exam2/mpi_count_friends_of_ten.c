@@ -76,7 +76,7 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
         sendcounts[numprocs-1]    = (n_rows[numprocs-1] + 2)*N;
     }
     if (n_rows[1]==0) {
-        sendcounts[1] =- N;
+        sendcounts[1] =- 2*N;
 
     }
 
