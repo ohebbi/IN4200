@@ -60,7 +60,7 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
     }
 
     // To get the correct dimensions.
-    if (num_rows[1]==1){
+    if (n_rows[1]==1){
       sendcounts[1] += N;
     }
 
