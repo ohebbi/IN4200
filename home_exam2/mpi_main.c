@@ -7,8 +7,8 @@
 int main (int argc, char **argv) {
 
   int M=0, N=0, my_rank, num_triple_friends; int **v=NULL;
-  MPI_Init (&argc, &argv);
 
+  MPI_Init (&argc, &argv);
   MPI_Comm_rank (MPI_COMM_WORLD, &my_rank);
 
   if (my_rank==0) {

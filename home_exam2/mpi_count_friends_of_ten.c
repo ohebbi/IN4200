@@ -21,11 +21,13 @@
 //
 
 int MPI_count_friends_of_ten(int M, int N, int** v){
-    int numprocs, my_rank;
 
+    int numprocs, my_rank;
+    // Get which rank every processor is, and how many processors in total
     MPI_Comm_rank (MPI_COMM_WORLD, &my_rank);
     MPI_Comm_size(MPI_COMM_WORLD, &numprocs);
 
+    // Broadcast N and M to all nodes
     MPI_Bcast(&N, 1, MPI_INT, 0, MPI_COMM_WORLD);
     MPI_Bcast(&M, 1, MPI_INT, 0, MPI_COMM_WORLD);
 
@@ -86,7 +88,7 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
         sendcounts[numprocs-2] -= N;
     }
 
-    // Diagnostics
+    // Diagnostics. Leave uncommented during bug-fixing.
     /*
     if (my_rank==0){
         for (int i = 0; i < numprocs; i++){
@@ -99,7 +101,8 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
     if (my_rank == 0){
       alloc1D(&v_flat, M*N);
       //printmat(v,M,N);
-      // Flatten the 2D matrix.
+
+      // Flatten the 2D matrix into an array.
       for (size_t i = 0; i < M; i++) {
           for (size_t j = 0; j < N; j++) {
               v_flat[idx(i,j,my_rank,N)] = v[i][j];
@@ -157,8 +160,6 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
                    +v_flat[idx(i+2,j+2,my_rank,N)] == 10) {
 
                      local_friends_of_ten++;
-                     //printf("myrank:%d, %d, %d\n", my_rank, i, j);
-                     //printf(" right-down");
                 }
             }
 
@@ -169,7 +170,6 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
                    +v_flat[idx(i-2,j+2,my_rank,N)] == 10) {
 
                     local_friends_of_ten++;
-
                 }
             }
         }
@@ -185,6 +185,12 @@ int MPI_count_friends_of_ten(int M, int N, int** v){
                   MPI_SUM,
                   MPI_COMM_WORLD);
 
+
+    // Free memory
+    free(v_flat);
+    free(sendcounts);
+    free(Sdispls);
+    free(n_rows);
 
     return total_friends_of_ten;
 }

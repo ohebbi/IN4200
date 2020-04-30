@@ -4,8 +4,10 @@
 #include "count_friends_of_ten.c"
 #include "functions/functions.h"
 
+
 int main(int argc, char const *argv[]) {
-  /* code */
+  
+  // Initialize v, M and N.
   int** v;
   int M, N;
 
