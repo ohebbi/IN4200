@@ -6,9 +6,16 @@
 #include <stdio.h>  // printf
 #include <time.h> //
 
-//#define idx(i,j) (2*my_rank*N + i*N + j)
+// Description
+// ----------
+// This header file contains useful functions used by several
+// programs.
+//
+//
+
 
 int idx(int i, int j, int my_rank, int N){
+
   if (my_rank == 0){
     return (i*N + j);
   }
@@ -103,11 +110,12 @@ int assignvalues_big_matrix(int** v, int M, int N){
   return 0;
 }
 
+
 int assign_random_integers(int** v, int M, int N){
   //srand(time(NULL));   // Initialization, should only be called once for randomn sequences.
   for (int i = 0; i < M; i++){
       for (int j = 0; j < N; j++){
-          v[i][j] = rand() % 10;
+          v[i][j] = rand() % 10; // random numbers in the inteval 0 to 9.
       }
   }
   return 0;
